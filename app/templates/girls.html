@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Girls{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Our Girls</h1>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for girl in girls %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <a href="/girl/{{ girl.id }}">
+                <img src="{{ girl.thumbnail }}" alt="{{ girl.name }}" class="w-full h-48 object-cover">
+                <div class="p-4">
+                    <p class="text-lg font-semibold">{{ girl.name }}</p>
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

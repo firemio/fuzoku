@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>現在位置の県市判別</title>
+</head>
+<body>
+    <h1>現在位置の県市判別</h1>
+    <button onclick="getLocation()">現在位置を取得</button>
+    <p id="location"></p>
+    <p id="address"></p>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.7.5/proj4.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Turf.js/6.5.0/turf.min.js"></script>
+    <script>
+        let geoJsonData = null;
+
+        // GeoJSONデータを読み込む
+        fetch('path/to/japan_prefectures.geojson') // ここにGeoJSONデータのパスを指定
+            .then(response => response.json())
+            .then(data => {
+                geoJsonData = data;
+            });
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById("location").innerHTML = "Geolocation is not supported by this browser.";
+            }
+        }
+
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            document.getElementById("location").innerHTML = `Latitude: ${lat} <br>Longitude: ${lon}`;
+            if (geoJsonData) {
+                getPrefecture(lat, lon);
+            } else {
+                document.getElementById("address").innerHTML = "GeoJSON data is not loaded yet.";
+            }
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById("location").innerHTML = "User denied the request for Geolocation.";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById("location").innerHTML = "Location information is unavailable.";
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById("location").innerHTML = "The request to get user location timed out.";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById("location").innerHTML = "An unknown error occurred.";
+                    break;
+            }
+        }
+
+        function getPrefecture(lat, lon) {
+            const point = turf.point([lon, lat]);
+
+            for (const feature of geoJsonData.features) {
+                if (turf.booleanPointInPolygon(point, feature)) {
+                    const prefecture = feature.properties.name;
+                    document.getElementById("address").innerHTML = `都道府県: ${prefecture}`;
+                    return;
+                }
+            }
+
+            document.getElementById("address").innerHTML = "県が判別できませんでした。";
+        }
+    </script>
+</body>
+</html>

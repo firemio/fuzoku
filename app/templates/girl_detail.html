@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}{{ girl.name }}{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">{{ girl.name }}</h1>
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+
+    {% for photo in girl.photos %}
+        <img src="{{ photo }}" alt="{{ girl.name }}" class="w-full h-96 object-cover">
+    {% endfor %}
+    <div class="p-4">
+        <p class="text-lg mb-4">{{ girl.profile }}</p>
+        <h2 class="text-xl font-semibold mb-2">Schedule</h2>
+        <ul class="list-disc list-inside">
+        </ul>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "8f82731d-d16d-4db9-b897-fc025d942110",
+    "name": "wwer",
+    "profile": "asdasd",
+    "status": "REST",
+    "thumbnail": "039e6736-2489-4e35-88e5-e83003019c58.webp",
+    "photos": [],
+    "schedule": {
+      "wed_start": "",
+      "mon_start": "",
+      "mon_end": "",
+      "thu_end": "",
+      "fri_end": "",
+      "tue_end": "",
+      "sun_end": "",
+      "sat_end": "",
+      "tue_start": "",
+      "sun_start": "",
+      "sat_start": "",
+      "fri_start": "",
+      "wed_end": "",
+      "thu_start": ""
+    }
+  },
+  {
+    "id": "6d6be466-8c88-402a-943d-9dd5cb99475d",
+    "name": "aaaa",
+    "profile": "2222",
+    "status": "STANDBY",
+    "thumbnail": "9177d43f-a9bb-42fc-b783-7688c4b887f7.webp",
+    "photos": [],
+    "schedule": {
+      "thu_end": "",
+      "sat_end": "",
+      "sun_end": "",
+      "sat_start": "",
+      "fri_end": "",
+      "tue_end": "",
+      "mon_start": "",
+      "sun_start": "",
+      "wed_end": "",
+      "mon_end": "",
+      "tue_start": "",
+      "thu_start": "",
+      "fri_start": "",
+      "wed_start": ""
+    }
+  },
+  {
+    "id": "129aec27-fa5f-420e-82c4-826739ec3b72",
+    "name": "bbasd",
+    "profile": "wer",
+    "status": "STANDBY",
+    "thumbnail": "ed222786-85f1-4167-baa0-0cdb448cf17d.webp",
+    "photos": [],
+    "schedule": {
+      "sun_start": "",
+      "mon_start": "",
+      "sun_end": "",
+      "tue_start": "",
+      "wed_start": "",
+      "sat_end": "",
+      "sat_start": "",
+      "thu_end": "",
+      "mon_end": "",
+      "thu_start": "",
+      "fri_start": "",
+      "tue_end": "",
+      "fri_end": "",
+      "wed_end": ""
+    }
+  }
+]

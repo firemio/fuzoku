@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block title %}Add New Girl{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Add New Girl</h1>
+<form action="/admin/girls/new" method="post" enctype="multipart/form-data" class="space-y-4">
+    <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" name="name" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+    </div>
+    <div>
+        <label for="profile" class="block text-sm font-medium text-gray-700">Profile</label>
+        <textarea name="profile" id="profile" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
+    </div>
+    <div>
+        <label for="thumbnail" class="block text-sm font-medium text-gray-700">Thumbnail</label>
+        <input type="file" name="thumbnail" id="thumbnail" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+    </div>
+    <button type="submit" class="bg-blue-500 text-white rounded-lg p-2">Add Girl</button>
+</form>
+{% endblock %}

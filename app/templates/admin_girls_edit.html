@@ -1,0 +1,88 @@
+{% extends "layout.html" %}
+{% block title %}Edit Girl{% endblock %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Edit {{ girl.name }}</h1>
+<form action="/admin/girls/edit/{{ girl.id }}" method="post" enctype="multipart/form-data" class="space-y-4">
+    <div>
+        <label for="name" class="block text-sm font-sm font-medium text-gray-700">Name</label>
+        <input type="text" name="name" id="name" value="{{ girl.name }}" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+    </div>
+    <div>
+        <label for="profile" class="block text-sm font-medium text-gray-700">Profile</label>
+        <textarea name="profile" id="profile" rows="3" class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">{{ girl.profile }}</textarea>
+    </div>
+    <div>
+        <label for="thumbnail" class="block text-sm font-medium text-gray-700">Thumbnail</label>
+        <input type="file" name="thumbnail" id="thumbnail" class="mt-1 block w-full text-sm text-gray-500">
+        <img src="/static/uploads/{{ girl.thumbnail }}" alt="Current Thumbnail" class="mt-2 h-20">
+    </div>
+    <div>
+        <label for="schedule" class="block text-sm font-medium text-gray-700">Schedule</label>
+        <div class="mt-1 grid grid-cols-2 gap-4">
+        </div>
+    </div>
+
+    <div class="flex items-center space-x-2">
+        <span class="text-sm font-medium text-gray-700">日:</span>
+        <label for="schedule_sun_start" class="text-sm font-medium text-gray-700">開始</label>
+        <input type="time" value="{{ girl.schedule["sun_start"] }}" name="schedule_sun_start" id="schedule_sun_start" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <label for="schedule_sun_end" class="text-sm font-medium text-gray-700">終了</label>
+        <input type="time" value="{{ girl.schedule["sun_end"] }}" name="schedule_sun_end" id="schedule_sun_end" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <button type="button" onclick="document.getElementById('schedule_sun_start').value = ''; document.getElementById('schedule_sun_end').value = ''" class="ml-2 py-1 px-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>クリア</button>
+    </div>
+
+    <div class="flex items-center space-x-2">
+        <span class="text-sm font-medium text-gray-700">月:</span>
+        <label for="schedule_mon_start" class="text-sm font-medium text-gray-700">開始</label>
+        <input type="time" value="{{ girl.schedule["mon_start"] }}" name="schedule_mon_start" id="schedule_mon_start" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <label for="schedule_mon_end" class="text-sm font-medium text-gray-700">終了</label>
+        <input type="time" value="{{ girl.schedule["mon_end"] }}" name="schedule_mon_end" id="schedule_mon_end" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <button type="button" onclick="document.getElementById('schedule_mon_start').value = ''; document.getElementById('schedule_mon_end').value = ''" class="ml-2 py-1 px-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>クリア</button>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span class="text-sm font-medium text-gray-700">火:</span>
+        <label for="schedule_tue_start" class="text-sm font-medium text-gray-700">開始</label>
+        <input type="time" value="{{ girl.schedule["tue_start"] }}" name="schedule_tue_start" id="schedule_tue_start" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <label for="schedule_tue_end" class="text-sm font-medium text-gray-700">終了</label>
+        <input type="time" value="{{ girl.schedule["tue_end"] }}" name="schedule_tue_end" id="schedule_tue_end" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <button type="button" onclick="document.getElementById('schedule_tue_start').value = ''; document.getElementById('schedule_tue_end').value = ''" class="ml-2 py-1 px-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>クリア</button>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span class="text-sm font-medium text-gray-700">水:</span>
+        <label for="schedule_wed_start" class="text-sm font-medium text-gray-700">開始</label>
+        <input type="time" value="{{ girl.schedule["wed_start"] }}" name="schedule_wed_start" id="schedule_wed_start" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <label for="schedule_wed_end" class="text-sm font-medium text-gray-700">終了</label>
+        <input type="time" value="{{ girl.schedule["wed_end"] }}" name="schedule_wed_end" id="schedule_wed_end" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <button type="button" onclick="document.getElementById('schedule_wed_start').value = ''; document.getElementById('schedule_wed_end').value = ''" class="ml-2 py-1 px-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>クリア</button>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span class="text-sm font-medium text-gray-700">木:</span>
+        <label for="schedule_thu_start" class="text-sm font-medium text-gray-700">開始</label>
+        <input type="time" value="{{ girl.schedule["thu_start"] }}" name="schedule_thu_start" id="schedule_thu_start" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <label for="schedule_thu_end" class="text-sm font-medium text-gray-700">終了</label>
+        <input type="time" value="{{ girl.schedule["thu_end"] }}" name="schedule_thu_end" id="schedule_thu_end" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <button type="button" onclick="document.getElementById('schedule_thu_start').value = ''; document.getElementById('schedule_thu_end').value = ''" class="ml-2 py-1 px-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>クリア</button>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span class="text-sm font-medium text-gray-700">金:</span>
+        <label for="schedule_fri_start" class="text-sm font-medium text-gray-700">開始</label>
+        <input type="time" value="{{ girl.schedule["fri_start"] }}" name="schedule_fri_start" id="schedule_fri_start" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <label for="schedule_fri_end" class="text-sm font-medium text-gray-700">終了</label>
+        <input type="time" value="{{ girl.schedule["fri_end"] }}" name="schedule_fri_end" id="schedule_fri_end" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <button type="button" onclick="document.getElementById('schedule_fri_start').value = ''; document.getElementById('schedule_fri_end').value = ''" class="ml-2 py-1 px-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>クリア</button>
+    </div>
+    <div class="flex items-center space-x-2">
+        <span class="text-sm font-medium text-gray-700">土:</span>
+        <label for="schedule_sat_start" class="text-sm font-medium text-gray-700">開始</label>
+        <input type="time" value="{{ girl.schedule["sat_start"] }}" name="schedule_sat_start" id="schedule_sat_start" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <label for="schedule_sat_end" class="text-sm font-medium text-gray-700">終了</label>
+        <input type="time" value="{{ girl.schedule["sat_end"] }}" name="schedule_sat_end" id="schedule_sat_end" class="mt-1 shadow-sm sm:text-sm border-gray-300 rounded-md">
+        <button type="button" onclick="document.getElementById('schedule_sat_start').value = ''; document.getElementById('schedule_sat_end').value = ''" class="ml-2 py-1 px-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline-block mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>クリア</button>
+    </div>
+
+    <div>
+        <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Save</button>
+    </div>
+</form>
+{% endblock %}
+

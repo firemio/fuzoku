@@ -1,0 +1,58 @@
+
+version: '3'
+services:
+  traefik:
+    image: traefik:v3.0
+    command:
+      - "--api.insecure=true"
+      - "--api.dashboard=true"  # ダッシュボードを有効にする
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+
+      # # ==== SSL ====
+      - "--entrypoints.websecure.address=:443"  # HTTPS用のエントリポイントを追加
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"  # ACMEプロトコルのTLSチャレンジを有効にする
+      - "--certificatesresolvers.myresolver.acme.email=${MYEMAIL}"  # Let's Encryptの登録に使用するメールアドレス
+      - "--certificatesresolvers.myresolver.acme.storage=./letsencrypt/acme.json"  # ACMEデータの保存先
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+
+      - "--log.level=DEBUG"   # DEBUG
+      - "--log.filePath=/log/traefik.log"    # DEBUG
+
+    ports:
+      - "80:80"
+      - "443:443"  # HTTPSポートを公開
+      - "8080:8080"
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik-dashboard.rule=Host(`traefik.${MYDOMAIN}`)"
+      - "traefik.http.routers.traefik-dashboard.entrypoints=websecure"
+      - "traefik.http.routers.traefik-dashboard.service=api@internal"
+      - "traefik.http.routers.traefik-dashboard.tls.certresolver=myresolver"
+
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./letsencrypt/acme.json:/letsencrypt/acme.json"
+      - "./log/traefik.log:/log/traefik.log"
+
+  web:
+    build: ./app
+    volumes:
+      - ./app:/usr/app  # ホストのディレクトリをコンテナにマウント
+    stdin_open: true  # これは docker run の -i オプションに相当します。
+    tty: true         # これは docker run の -t オプションに相当します。
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`${MYDOMAIN}`)"
+      - "traefik.http.routers.web.entrypoints=websecure"  # HTTPSエントリポイントを使用
+      - "traefik.http.routers.web.tls.certresolver=myresolver"  # Let's Encryptの証明書リゾルバーを使用
+      - "traefik.http.services.web.loadbalancer.server.port=3000"
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

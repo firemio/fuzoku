@@ -1,0 +1,117 @@
+{% extends "layout.html" %}
+{% block title %}Manage Girls{% endblock %}
+{% block content %}
+
+<script>
+    function confirmDeletion(girlId, event) {
+        event.preventDefault(); // フォームの送信を防ぐ
+        if (confirm("本当に削除しますか？")) {
+            // ユーザーがOKを押した場合、削除リクエストを送信
+            fetch(`/admin/girls/delete/${girlId}`, {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+//                    alert("削除されました");
+                    location.reload(); // ページをリロードして更新
+                } else {
+                    alert("削除に失敗しました");
+                }
+            });
+        }
+    }
+</script>
+
+
+
+<!-- モーダルウィンドウのHTML -->
+<div id="deleteModal" class="fixed z-10 inset-0 overflow-y-auto hidden">
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="bg-white p-6 rounded-lg shadow-lg">
+            <h2 class="text-xl font-bold mb-4">本当に削除しますか？</h2>
+            <div class="flex justify-end">
+                <button id="confirmButton" class="bg-red-500 text-white rounded-lg p-4 mr-2">削除</button>
+                <button id="cancelButton" class="bg-gray-500 text-white rounded-lg p-4 mr-2">キャンセル</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let girlIdToDelete = null;
+
+    function confirmDeletion(girlId, event) {
+        event.preventDefault(); // フォームの送信を防ぐ
+        girlIdToDelete = girlId;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+
+    document.getElementById('cancelButton').addEventListener('click', function() {
+        document.getElementById('deleteModal').classList.add('hidden');
+        girlIdToDelete = null;
+    });
+
+    document.getElementById('confirmButton').addEventListener('click', function() {
+        if (girlIdToDelete) {
+            fetch(`/admin/girls/delete/${girlIdToDelete}`, {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+                    location.reload(); // ページをリロードして更新
+                } else {
+                    alert("削除に失敗しました");
+                }
+                document.getElementById('deleteModal').classList.add('hidden');
+                girlIdToDelete = null;
+            });
+        }
+    });
+</script>
+
+
+
+<script>
+    function updateStatus(girlId, status) {
+        fetch(`/admin/girls/status/${girlId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: status })
+        }).then(response => {
+            if (response.ok) {
+                document.getElementById(`status-${girlId}`).innerText = status;
+                document.getElementById(`work-button-${girlId}`).disabled = (status === 'STANDBY');
+                document.getElementById(`rest-button-${girlId}`).disabled = (status === 'REST');
+            } else {
+                alert("ステータスの更新に失敗しました");
+            }
+        });
+    }
+</script>
+
+<h1 class="text-2xl font-bold mb-4">Manage Girls</h1>
+
+<a href="/admin/girls/new" class="bg-green-500 text-white rounded-lg p-4 mt-4 inline-block">Add New Girl</a>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {% for girl in girls %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <p class="text-lg font-semibold">{{ girl.name }}</p>
+            <img src="/static/uploads/{{ girl.thumbnail }}" alt="{{ girl.thumbnail }}" class="w-full h-48 object-cover">
+            <div class="p-4">
+                <p class="text-lg font-semibold p-4">{{ girl.profile }}</p>
+                <p id="status-{{ girl.id }}">{{ girl.status }}</p>
+                <div class="flex space-x-2 mt-2">
+                    <button id="work-button-{{ girl.id }}" class="bg-green-500 text-white rounded-lg p-2" onclick="updateStatus('{{ girl.id }}', 'STANDBY')">出勤</button>
+                    <button id="rest-button-{{ girl.id }}" class="bg-yellow-500 text-white rounded-lg p-2" onclick="updateStatus('{{ girl.id }}', 'REST')">休み</button>
+                    <a href="/admin/girls/edit/{{ girl.id }}" class="bg-blue-500 text-white rounded-lg p-2 hover:bg-blue-700">編集</a>
+                    <form action="/admin/girls/delete/{{ girl.id }}" method="post" onsubmit="confirmDeletion('{{ girl.id }}', event)" class="ml-auto">
+                        <button type="submit" class="bg-red-500 text-white rounded-lg p-2 hover:bg-red-700">削除</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

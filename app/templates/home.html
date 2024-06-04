@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<h1 class="text-2xl font-bold mb-4">{{ greeting }} B:</h1>
+
+<h1 class="text-2xl font-bold mb-4">現在出勤中の女の子</h1>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 border-4 border-pink-400 p-1 bg-pink-100 rounded-lg mx-0 sm:mx-4 lg:mx-8">
+    {% for girl in standby_girls %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col" style="height: auto;">
+            <p class="text-lg font-semibold p-2">{{ girl.name }} {{ girl.status }}</p>
+            <div class="relative" style="padding-bottom: 161.8%; height: 0;">
+                <img src="/static/uploads/{{ girl.thumbnail }}" alt="{{ girl.thumbnail }}" class="absolute top-0 left-0 w-full h-full object-cover hover:opacity-75 active:opacity-50">
+            </div>
+            <div class="p-4">
+                <p class="text-lg font-semibold">{{ girl.profile }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="mt-20 mb-20"></div>
+
+<h1 class="text-2xl font-bold mb-4">ALL GIRLS</h1>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 mx-2 sm:mx-4 lg:mx-8">
+    {% for girl in girls %}
+        <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col" style="height: auto;">
+            <p class="text-lg font-semibold p-2">{{ girl.name }} {{ girl.status }}</p>
+            <div class="relative" style="padding-bottom: 161.8%; height: 0;">
+                <img src="/static/uploads/{{ girl.thumbnail }}" alt="{{ girl.thumbnail }}" class="absolute top-0 left-0 w-full h-full object-cover hover:opacity-75 active:opacity-50">
+            </div>
+            <div class="p-4">
+                <p class="text-lg font-semibold">{{ girl.profile }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
